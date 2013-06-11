@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 import json
@@ -35,12 +35,11 @@ def _post_data(url, data, *args, **kwargs):
     if additional_headers is not None:
         headers.update(additional_headers)
     try:
-        print headers
         response, content = http.request(
             url, "POST", body=data, headers=headers)
-        print response
     except Exception as e:
         print e
+        return
     return content.decode("utf-8")
 
 
@@ -61,15 +60,18 @@ def _generate_boundary():
 
 
 def _file_encode_multipart(filename, file_stream):
-    boundary = 16 * "-" + "{0}".format(_generate_boundary())
+    boundary = "weed{0}weed".format(_generate_boundary())
     data = []
     data.append("--{0}".format(boundary))
-    data.append('Content-Disposition: form-data; name="file"; filename="{filename}"; type={file_mimetype}'.format(
+    data.append('Content-Disposition: form-data; name="file"; filename="{filename}"; type="{file_mimetype}"'.format(
         filename=filename,
         file_mimetype=mimetypes.guess_type(filename)[0] or 'application/octet-stream'))
+    data.append("Content-Type: {0}".format(mimetypes.guess_type(
+        filename)[0] or 'application/octet-stream'))
     data.append('')
     data.append(file_stream.read())
     data.append('--{0}--'.format(boundary))
+    data.append('')
     content_type = 'multipart/form-data; boundary=%s' % boundary
     body = "\n".join(data)
     return content_type, body
@@ -133,9 +135,10 @@ class WeedFS(object):
         filename = os.path.basename(file_path)
         content_type, body = _file_encode_multipart(filename, file_stream)
         post_url = "http://{publicUrl}/{fid}".format(**data)
-        _post_data(
+        res = _post_data(
             post_url, body, headers={"Content-Type": content_type,
-                                                "Content-Length": str(len(body))})
+                                     "Content-Length": str(len(body)),
+                                     "Accept": "*/*"})
 
 
 if __name__ == "__main__":
