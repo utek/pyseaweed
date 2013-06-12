@@ -94,7 +94,7 @@ class WeedFS(object):
         :rtype: string
         """
         volume_id, rest = fid.strip().split(",")
-        file_location = get_file_location(volume_id)
+        file_location = self.get_file_location(volume_id)
         url = "http://{public_url}/{fid}".format(file_location.public_url, fid)
         return url
 
@@ -112,7 +112,7 @@ class WeedFS(object):
         data = json.loads(_get_data(url))
         _file_location = random.choice(data['locations'])
         FileLocation = namedtuple('FileLocation', "public_url url")
-        return FileLocation(file_location['publicUrl'], file_location['url'])
+        return FileLocation(_file_location['publicUrl'], _file_location['url'])
 
     def delete_file(self, fid):
         """
@@ -120,17 +120,17 @@ class WeedFS(object):
 
         :param string fid: File ID
         """
-        url = get_file_url(fid)
-        return _delete_data(fid)
+        url = self.get_file_url(fid)
+        return _delete_data(url)
 
     def upload_file(self, file_path):
         url = "http://{master_addr}:{master_port}/dir/assign".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
         data = json.loads(_get_data(url))
-        FileInfo = namedtuple('FileInfo', "count fid url public_url")
-        file_info = FileInfo(data['count'], data['fid'],
-                             data['url'], data['publicUrl'])
+        # FileInfo = namedtuple('FileInfo', "count fid url public_url")
+        # file_info = FileInfo(data['count'], data['fid'],
+        #                      data['url'], data['publicUrl'])
         file_stream = open(file_path, "rb")
         filename = os.path.basename(file_path)
         content_type, body = _file_encode_multipart(filename, file_stream)
