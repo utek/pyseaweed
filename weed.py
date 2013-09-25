@@ -4,6 +4,7 @@ __version__ = "0.0.2"
 
 import json
 import os
+import sys
 import mimetypes
 import random
 import string
@@ -39,7 +40,7 @@ def _post_data(url, data, *args, **kwargs):
             url, "POST", body=data, headers=headers)
     except Exception as e:
         print e
-        return
+        return "{}"
     return content.decode("utf-8")
 
 
@@ -95,7 +96,7 @@ class WeedFS(object):
         """
         volume_id, rest = fid.strip().split(",")
         file_location = self.get_file_location(volume_id)
-        url = "http://{public_url}/{fid}".format(file_location.public_url, fid)
+        url = "http://{public_url}/{fid}".format(public_url=file_location.public_url, fid=fid)
         return url
 
     def get_file_location(self, volume_id):
@@ -124,13 +125,19 @@ class WeedFS(object):
         return _delete_data(url)
 
     def upload_file(self, file_path):
+        '''
+        Uploads file to WeedFS
+
+        :param string file_path:
+        :rtype: string or None
+        '''
         url = "http://{master_addr}:{master_port}/dir/assign".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
         data = json.loads(_get_data(url))
-        # FileInfo = namedtuple('FileInfo', "count fid url public_url")
-        # file_info = FileInfo(data['count'], data['fid'],
-        #                      data['url'], data['publicUrl'])
+        if data.get("error") is not None:
+            print data.get("error")
+            return None
         file_stream = open(file_path, "rb")
         filename = os.path.basename(file_path)
         content_type, body = _file_encode_multipart(filename, file_stream)
@@ -139,8 +146,26 @@ class WeedFS(object):
             post_url, body, headers={"Content-Type": content_type,
                                      "Content-Length": str(len(body)),
                                      "Accept": "*/*"})
+        response_data = json.loads(res)
+        size = response_data.get('size')
+        if size is not None:
+            return data['fid']
+        else:
+            return None
 
 
 if __name__ == "__main__":
+    print "uploading file"
     w = WeedFS("localhost", 9333)
-    w.upload_file("d:/n.txt")
+    fid = w.upload_file("d:/n.txt")
+    if fid is None:
+        sys.exit(0)
+    print "fid: {0}".format(fid)
+
+    print "getting link for file: {0}".format(fid)
+    url = w.get_file_url(fid)
+    print "url: {0}".format(url)
+    # deleting
+    print "deleting file"
+    # res = w.delete_file(fid)
+    # print res
