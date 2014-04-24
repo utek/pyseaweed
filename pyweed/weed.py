@@ -23,7 +23,7 @@ def _get_data(url, *args, **kwargs):
     try:
         response, content = http.request(url, headers=headers)
     except Exception as e:
-        print e
+        raise e
     return content.decode("utf-8")
 
 
@@ -39,7 +39,7 @@ def _post_data(url, data, *args, **kwargs):
         response, content = http.request(
             url, "POST", body=data, headers=headers)
     except Exception as e:
-        print e
+        raise e
         return "{}"
     return content.decode("utf-8")
 
@@ -136,7 +136,7 @@ class WeedFS(object):
             master_port=self.master_port)
         data = json.loads(_get_data(url))
         if data.get("error") is not None:
-            print data.get("error")
+            # print data.get("error")
             return None
         file_stream = open(file_path, "rb")
         filename = os.path.basename(file_path)
@@ -156,13 +156,14 @@ class WeedFS(object):
 
 
 if __name__ == "__main__":
-    print "uploading file"
-    w = WeedFS("localhost", 9333)
-    fid = w.upload_file("d:/n.txt")
-    if fid is None:
-        sys.exit(0)
-    print "fid: {0}".format(fid)
-    print "getting link for file: {0}".format(fid)
-    url = w.get_file_url(fid)
-    print "url: {0}".format(url)
-    print "deleting file"
+    pass
+    # print "uploading file"
+    # w = WeedFS("localhost", 9333)
+    # fid = w.upload_file("d:/n.txt")
+    # if fid is None:
+    #     sys.exit(0)
+    # print "fid: {0}".format(fid)
+    # print "getting link for file: {0}".format(fid)
+    # url = w.get_file_url(fid)
+    # print "url: {0}".format(url)
+    # print "deleting file"
