@@ -13,7 +13,8 @@ def include_directories(in_dirs):
         paths.extend(list(chain.from_iterable(imap(join, repeat(root[len('pyweed') + 1:]), files) for root, _, files in walk(join('pyweed', directory)))))
     return paths
 
-package_data = include_directories([])
+package_data = include_directories([
+])
 
 required_packages = [
     "httplib2",
@@ -24,9 +25,11 @@ setup(name='pyweed',
       description="Python module to communicate with Weed-FS",
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
+      license="MIT",
       packages=find_packages(),
       package_data={
-          'pyweed': package_data
+          '': ['*.txt', '*.rst'],
+          'pyweed': package_data,
       },
       test_suite="pyweed.tests",
       install_requires=required_packages)
