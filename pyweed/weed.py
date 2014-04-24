@@ -142,6 +142,7 @@ class WeedFS(object):
         filename = os.path.basename(file_path)
         content_type, body = _file_encode_multipart(filename, file_stream)
         post_url = "http://{publicUrl}/{fid}".format(**data)
+        file_stream.close()
         res = _post_data(
             post_url, body, headers={"Content-Type": content_type,
                                      "Content-Length": str(len(body)),
