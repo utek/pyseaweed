@@ -4,13 +4,13 @@ __version__ = "0.1.1"
 
 import json
 import os
-import sys
 import mimetypes
 import random
 import string
 from collections import namedtuple
 
 import httplib2
+from six.moves import range
 
 http = httplib2.Http()
 
@@ -56,7 +56,7 @@ def _delete_data(url, *args, **kwargs):
 
 def _generate_boundary():
     chars = string.ascii_letters + string.digits
-    return ''.join(random.choice(chars) for x in xrange(24))
+    return ''.join(random.choice(chars) for x in range(24))
 
 
 def _file_encode_multipart(filename, file_stream):
@@ -155,4 +155,3 @@ class WeedFS(object):
 
 if __name__ == "__main__":
     pass
-

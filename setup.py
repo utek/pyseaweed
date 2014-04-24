@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 
 required_packages = [
     "httplib2",
+    "six"
 ]
 
 setup(name='pyweed',

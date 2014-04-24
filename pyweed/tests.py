@@ -4,7 +4,7 @@ from . import weed
 
 
 def _mock_request(*args, **kwargs):
-    return {"status": "200"}, "OK"
+    return {"status": "200"}, b"OK"
 
 
 weed.http.request = _mock_request
