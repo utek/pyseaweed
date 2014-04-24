@@ -1,1 +1,1 @@
-from weed import WeedFS
+from .weed import WeedFS

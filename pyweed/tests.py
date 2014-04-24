@@ -1,6 +1,6 @@
 import unittest
 
-import weed
+from . import weed
 
 
 def _mock_request(*args, **kwargs):
