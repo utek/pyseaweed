@@ -21,11 +21,13 @@ required_packages = [
 ]
 
 setup(name='pyweed',
-      version='0.0.2',
+      version='0.1.0',
       description="Python module to communicate with Weed-FS",
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
       license="MIT",
+      long_description=open('README.rst').read(),
+      url="https://github.com/utek/pyweed",
       packages=find_packages(),
       package_data={
           '': ['*.txt', '*.rst'],
