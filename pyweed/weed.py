@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 import json
@@ -162,11 +162,7 @@ if __name__ == "__main__":
     if fid is None:
         sys.exit(0)
     print "fid: {0}".format(fid)
-
     print "getting link for file: {0}".format(fid)
     url = w.get_file_url(fid)
     print "url: {0}".format(url)
-    # deleting
     print "deleting file"
-    # res = w.delete_file(fid)
-    # print res

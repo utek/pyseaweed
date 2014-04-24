@@ -21,7 +21,7 @@ required_packages = [
 ]
 
 setup(name='pyweed',
-      version='0.1.0',
+      version='0.1.1',
       description="Python module to communicate with Weed-FS",
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
