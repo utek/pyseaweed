@@ -28,4 +28,5 @@ setup(name='pyweed',
       package_data={
           'pyweed': package_data
       },
+      test_suite="pyweed.tests",
       install_requires=required_packages)
