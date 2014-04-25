@@ -70,11 +70,11 @@ class WeedFS(object):
         data = json.loads(_get_data(url))
         if data.get("error") is not None:
             return None
-        file_stream = open(file_path, "rb")
+        # file_stream = open(file_path, "rb")
         filename = os.path.basename(file_path)
-        content_type, body = _file_encode_multipart(filename, file_stream)
+        with open(file_path, "rb") as file_stream:
+            content_type, body = _file_encode_multipart(filename, file_stream)
         post_url = "http://{publicUrl}/{fid}".format(**data)
-        file_stream.close()
         res = _post_data(
             post_url, body, headers={"Content-Type": content_type,
                                      "Content-Length": str(len(body)),

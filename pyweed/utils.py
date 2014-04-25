@@ -42,7 +42,7 @@ def _delete_data(url, *args, **kwargs):
     user_agent = "pyweed/{version}".format(version=__version__)
     headers = {"User-Agent": user_agent}
     response, content = http.request(url, "DELETE", headers=headers)
-    if response.get("status") == "200":
+    if response.get("status") == "200" or response.get("status") == "202":
         return True
     else:
         return False
@@ -63,7 +63,7 @@ def _file_encode_multipart(filename, file_stream):
     data.append("Content-Type: {0}".format(mimetypes.guess_type(
         filename)[0] or 'application/octet-stream'))
     data.append('')
-    data.append(file_stream.read())
+    data.append(str(file_stream.read()))
     data.append('--{0}--'.format(boundary))
     data.append('')
     content_type = 'multipart/form-data; boundary=%s' % boundary

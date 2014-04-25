@@ -7,12 +7,10 @@ def _mock_request(*args, **kwargs):
     return {"status": "200"}, b"OK"
 
 
-utils.http.request = _mock_request
-
-
 class MiscTests(unittest.TestCase):
 
     def setUp(self):
+        utils.http.request = _mock_request
         pass
 
     def test_boundary(self):

@@ -22,5 +22,5 @@ setup(name='pyweed',
       url="https://github.com/utek/pyweed",
       packages=find_packages(),
       include_package_data=True,
-      test_suite="pyweed.tests",
+      test_suite="pyweed",
       install_requires=required_packages)
