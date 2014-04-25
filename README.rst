@@ -4,10 +4,18 @@ PyWeed
 
 Class to simplify communication with WeedFS
 
+============
+Installation
+============
 
-+++++++
+From PyPI
+
+    :code:`pip install pyweed`
+
+
+============
 Usage
-+++++++
+============
 
 Upload file to weedFS
 
