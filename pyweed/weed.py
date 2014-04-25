@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-__version__ = "0.1.1"
-
-
 import json
 import os
 import mimetypes
@@ -13,6 +10,8 @@ import httplib2
 from six.moves import range
 
 http = httplib2.Http()
+
+from .version import __version__
 
 
 def _get_data(url, *args, **kwargs):

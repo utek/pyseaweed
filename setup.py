@@ -2,6 +2,10 @@
 # coding=utf-8
 from setuptools import setup, find_packages
 
+__version__ = "0"
+
+with open('pyweed/version.py') as f:
+    exec(f.read())
 
 required_packages = [
     "httplib2",
@@ -9,7 +13,7 @@ required_packages = [
 ]
 
 setup(name='pyweed',
-      version='0.1.1',
+      version=__version__,
       description="Python module to communicate with Weed-FS",
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
