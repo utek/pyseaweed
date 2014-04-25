@@ -28,3 +28,13 @@ class MiscTests(unittest.TestCase):
     def test_delete_data(self):
         content = utils._delete_data("url")
         self.assertTrue(content)
+
+    def test_file_encode_multipart(self):
+        import os
+        with open(__file__, "rb") as file_stream:
+            content_type, body = utils._file_encode_multipart(
+                os.path.basename(__file__),
+                file_stream)
+            self.assertIsNotNone(content_type)
+            m = content_type.split(";")[0].strip()
+            self.assertEqual(m, "multipart/form-data")
