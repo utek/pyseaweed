@@ -7,6 +7,15 @@ def _mock_request(*args, **kwargs):
     return {"status": "200"}, b"OK"
 
 
+def _mock_bad_request(*args, **kwargs):
+    return {"status": "400"}, b"ERROR"
+
+
+def _mock_exception_request(*args, **kwargs):
+    raise Exception
+    return {"status": "200"}, b"OK"
+
+
 class MiscTests(unittest.TestCase):
 
     def setUp(self):
@@ -38,3 +47,25 @@ class MiscTests(unittest.TestCase):
             self.assertIsNotNone(content_type)
             m = content_type.split(";")[0].strip()
             self.assertEqual(m, "multipart/form-data")
+
+
+class ExMiscTests(unittest.TestCase):
+
+    def setUp(self):
+        utils.http.request = _mock_exception_request
+
+    def test_get_data(self):
+        self.assertRaises(Exception, utils._get_data, "url")
+
+    def test_post_data(self):
+        self.assertRaises(Exception, utils._post_data, ("url", "a"))
+
+
+class BadMiscTests(unittest.TestCase):
+
+    def setUp(self):
+        utils.http.request = _mock_bad_request
+
+    def test_delete_data(self):
+        content = utils._delete_data("url")
+        self.assertFalse(content)
