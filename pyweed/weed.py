@@ -34,7 +34,8 @@ class WeedFS(object):
 
     def get_file_location(self, volume_id):
         """
-        Get location for the file
+        Get location for the file,
+        WeedFS volume is choosed randomly
 
         :param integer volume_id: volume_id
         :rtype: namedtuple
