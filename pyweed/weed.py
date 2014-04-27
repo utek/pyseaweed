@@ -87,6 +87,22 @@ class WeedFS(object):
         else:
             return None
 
+    def vacuum(self, threshold=0.3):
+        '''
+        Force garbage collection
+
+        :param float threshold (optional): The threshold is optional, and will not change the default threshold.
+        :rtype: boolean
+        '''
+        url = "http://{master_addr}:{master_port}/vol/vacuum?garbageThreshold={threshold}".format(
+            master_addr=self.master_addr,
+            master_port=self.master_port,
+            threshold=threshold)
+        res = _get_data(url)
+        if res is not None:
+            return True
+        return False
+
     @property
     def version(self):
         url = "http://{master_addr}:{master_port}/dir/status".format(

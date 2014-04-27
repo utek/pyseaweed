@@ -18,3 +18,7 @@ class FunctionalTests(unittest.TestCase):
     def test_version(self):
         ver = self.weed.version
         self.assertIsNotNone(ver)
+
+    def test_vacuum(self):
+        res = self.weed.vacuum()
+        self.assertTrue(res)
