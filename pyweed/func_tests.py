@@ -26,8 +26,3 @@ class FunctionalTests(unittest.TestCase):
 
     def test_bad_fid(self):
         self.assertRaises(BadFidFormat, self.weed.get_file_url, ("a"))
-
-    def test_no_file(self):
-        res = self.weed.get_file_url("2,123")
-        print(res)
-        self.assertIsNone(res)
