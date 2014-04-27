@@ -11,6 +11,8 @@ from .utils import (
     _file_encode_multipart
 )
 
+from .exceptions import BadFidFormat
+
 
 class WeedFS(object):
     master_addr = "localhost"
@@ -27,7 +29,10 @@ class WeedFS(object):
         :param integer fid: File ID
         :rtype: string
         """
-        volume_id, rest = fid.strip().split(",")
+        try:
+            volume_id, rest = fid.strip().split(",")
+        except ValueError:
+            raise BadFidFormat("fid must be in format: <volume_id>,<file_name_hash>")
         file_location = self.get_file_location(volume_id)
         url = "http://{public_url}/{fid}".format(public_url=file_location.public_url, fid=fid)
         return url
@@ -105,6 +110,11 @@ class WeedFS(object):
 
     @property
     def version(self):
+        '''
+        Returns Weed-FS master version
+
+        :rtype: string
+        '''
         url = "http://{master_addr}:{master_port}/dir/status".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
