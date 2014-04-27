@@ -1,4 +1,4 @@
-.. image:: https://travis-ci.org/utek/pyweed.svg?branch=master   :target: https://travis-ci.org/utek/pyweed
+.. image:: https://travis-ci.org/utek/pyweed.svg?branch=master
 
 *********************************************************
 PyWeed
