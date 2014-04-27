@@ -1,3 +1,5 @@
+.. image:: https://travis-ci.org/utek/pyweed.svg?branch=master   :target: https://travis-ci.org/utek/pyweed
+
 *********************************************************
 PyWeed
 *********************************************************
@@ -10,7 +12,7 @@ Installation
 
 From PyPI
 
-    :code:`pip install pyweed`
+    `pip install pyweed`
 
 
 ============
@@ -23,32 +25,17 @@ Upload file to weedFS
 
     from pyweed import WeedFS
 
-    w = WeedFS("localhost", 9333) // weed-fs master address and port
-    w.upload_file("d:/n.txt") // path to file
+    # File upload
+    w = WeedFS("localhost", 9333) # weed-fs master address and port
+    fid = w.upload_file("n.txt") # path to file
+
+    # Get file url
+    file_url = w.get_file_url(fid)
+
+    # Delete file
+    res = w.delete_file(fid)
+    # res is boolean (True if file was deleted)
 
 
-.. py:class:: WeedFS
-    .. py:method:: __init__(self, master_addr='localhost', master_port=9333)
 
-    .. py:method:: get_file_url(self, fid)
-        Get url for the file
 
-        :param integer fid: File ID
-        :rtype: str
-
-    .. py:method:: get_file_location(self, volume_id):
-        Get location for the file
-
-        :param integer volume_id: volume_id
-        :rtype: namedtuple
-
-    .. py:method:: delete_file(self, fid):
-        Delete file from WeedFS
-
-        :param string fid: File ID
-
-    .. py:method:: upload_file(self, file_path):
-        Uploads file to WeedFS
-
-        :param string file_path:
-        :rtype: string or None
