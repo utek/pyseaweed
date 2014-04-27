@@ -87,6 +87,15 @@ class WeedFS(object):
         else:
             return None
 
+    @property
+    def version(self):
+        url = "http://{master_addr}:{master_port}/dir/status".format(
+            master_addr=self.master_addr,
+            master_port=self.master_port)
+        data = _get_data(url)
+        response_data = json.loads(data)
+        return response_data.get("Version")
+
 
 if __name__ == "__main__":
     pass

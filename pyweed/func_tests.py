@@ -14,3 +14,7 @@ class FunctionalTests(unittest.TestCase):
         self.assertIsNotNone(fid)
         res = self.weed.delete_file(fid)
         self.assertTrue(res)
+
+    def test_version(self):
+        ver = self.weed.version
+        self.assertIsNotNone(ver)
