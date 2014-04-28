@@ -18,7 +18,13 @@ From PyPI
 Tests
 ============
 
-Run tests by `python setup.py tests` us if using nose: `nosetests`
+Run tests::
+
+    `python setup.py tests`
+
+Or using nose::
+
+    `nosetests`
 
 .. note::
     Functional tests assumes that there is WeedFS master running on localhost:9333 (defaults).

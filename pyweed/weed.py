@@ -22,6 +22,13 @@ class WeedFS(object):
         self.master_addr = master_addr
         self.master_port = master_port
 
+    def __repr__(self):
+        return "<{0} {1}:{2}>".format(
+            self.__class__.__name__,
+            self.master_addr,
+            self.master_port
+        )
+
     def get_file_url(self, fid):
         """
         Get url for the file

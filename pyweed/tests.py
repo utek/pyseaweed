@@ -1,6 +1,7 @@
 import unittest
 
 from . import utils
+from .weed import WeedFS
 
 
 def _mock_request(*args, **kwargs):
@@ -69,3 +70,13 @@ class BadMiscTests(unittest.TestCase):
     def test_delete_data(self):
         content = utils._delete_data("url")
         self.assertFalse(content)
+
+
+class WeedFSTests(unittest.TestCase):
+
+    def setUp(self):
+        self.weed = WeedFS()
+        pass
+
+    def test_repr(self):
+        self.assertEqual(str(self.weed), "<WeedFS localhost:9333>")

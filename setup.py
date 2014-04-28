@@ -23,4 +23,13 @@ setup(name='pyweed',
       packages=find_packages(),
       include_package_data=True,
       test_suite="pyweed",
-      install_requires=required_packages)
+      install_requires=required_packages,
+      classifiers=[
+          "Intended Audience :: Developers",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3.3",
+          "Programming Language :: Python :: 3.4",
+          "License :: OSI Approved :: MIT License",
+          "Operating System :: OS Independent",
+      ])
