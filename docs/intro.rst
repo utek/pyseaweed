@@ -29,7 +29,17 @@ From source::
 Tests
 ============
 
-Run tests by `python setup.py tests` us if using nose: `nosetests`
+Install dependencies::
+
+    pip install -r test_requirements.txt
+
+Run tests::
+
+    python setup.py tests
+
+Or using nose::
+
+    nosetests
 
 .. note::
     Functional tests assumes that there is WeedFS master running on localhost:9333 (defaults).

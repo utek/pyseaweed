@@ -41,6 +41,8 @@ class WeedFS(object):
         Returns:
             Content of the file with provided fid or None if file doesn't exist
             on the server
+
+        .. versionadded:: 0.3.1
         """
         url = self.get_file_url(fid)
         return _get_raw_data(url)
@@ -49,7 +51,7 @@ class WeedFS(object):
         """
         Get url for the file
 
-        :param integer fid: File ID
+        :param string fid: File ID
         :rtype: string
         """
         try:
@@ -66,7 +68,7 @@ class WeedFS(object):
         WeedFS volume is choosed randomly
 
         :param integer volume_id: volume_id
-        :rtype: namedtuple
+        :rtype: namedtuple `FileLocation` `{"public_url":"", "url":""}`
         """
         url = "http://{master_addr}:{master_port}/dir/lookup?volumeId={volume_id}".format(
             master_addr=self.master_addr,
