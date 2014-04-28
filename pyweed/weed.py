@@ -8,6 +8,7 @@ from .utils import (
     _get_data,
     _get_raw_data,
     _post_data,
+    _post_file,
     _delete_data,
     _file_encode_multipart
 )
@@ -73,7 +74,7 @@ class WeedFS(object):
             master_addr=self.master_addr,
             master_port=self.master_port,
             volume_id=volume_id)
-        data = json.loads(_get_data(url))
+        data = json.loads(_get_data(url).text)
         _file_location = random.choice(data['locations'])
         FileLocation = namedtuple('FileLocation', "public_url url")
         return FileLocation(_file_location['publicUrl'], _file_location['url'])
@@ -97,19 +98,21 @@ class WeedFS(object):
         url = "http://{master_addr}:{master_port}/dir/assign".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
-        data = json.loads(_get_data(url))
+        data = json.loads(_get_data(url).text)
         if data.get("error") is not None:
             return None
         # file_stream = open(file_path, "rb")
         filename = os.path.basename(file_path)
-        with open(file_path, "rb") as file_stream:
-            content_type, body = _file_encode_multipart(filename, file_stream)
         post_url = "http://{publicUrl}/{fid}".format(**data)
-        res = _post_data(
-            post_url, body, headers={"Content-Type": content_type,
-                                     "Content-Length": str(len(body)),
-                                     "Accept": "*/*"})
-        response_data = json.loads(res)
+        with open(file_path, "rb") as file_stream:
+            # content_type, body = _file_encode_multipart(filename, file_stream)
+            res = _post_file(post_url, filename, file_stream)
+
+        # res = _post_data(
+        #     post_url, body, headers={"Content-Type": content_type,
+        #                              "Content-Length": str(len(body)),
+        #                              "Accept": "*/*"})
+        response_data = json.loads(res.text)
         size = response_data.get('size')
         if size is not None:
             return data['fid']
@@ -142,7 +145,7 @@ class WeedFS(object):
         url = "http://{master_addr}:{master_port}/dir/status".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
-        data = _get_data(url)
+        data = _get_data(url).text
         response_data = json.loads(data)
         return response_data.get("Version")
 

@@ -10,16 +10,26 @@ from .version import __version__
 http = httplib2.Http()
 
 
-def _get_data(url, *args, **kwargs):
-    """helper function"""
-    response = None
+# def _get_data(url, *args, **kwargs):
+#     """helper function"""
+#     response = None
+#     user_agent = "pyweed/{version}".format(version=__version__)
+#     headers = {"User-Agent": user_agent}
+#     try:
+#         response, content = http.request(url, headers=headers)
+#     except Exception as e:
+#         raise e
+#     return content.decode("utf-8")
+
+def _prepare_headers():
     user_agent = "pyweed/{version}".format(version=__version__)
     headers = {"User-Agent": user_agent}
-    try:
-        response, content = http.request(url, headers=headers)
-    except Exception as e:
-        raise e
-    return content.decode("utf-8")
+    return headers
+
+
+def _get_data(url, *args, **kwargs):
+    return requests.get(url, headers=_prepare_headers())
+    pass
 
 
 def _get_raw_data(url, *args, **kwargs):
@@ -52,17 +62,24 @@ def _post_data(url, data, *args, **kwargs):
 
 
 def _post_file(url, filename, file_stream):
-    response = None
-    response = requests.post(url, files={filename: file_stream})
+    response = requests.post(url, files={filename: file_stream},
+                             headers=_prepare_headers())
     return response
 
 
+# def _delete_data(url, *args, **kwargs):
+#     response = None
+#     user_agent = "pyweed/{version}".format(version=__version__)
+#     headers = {"User-Agent": user_agent}
+#     response, content = http.request(url, "DELETE", headers=headers)
+#     if response.get("status") == "200" or response.get("status") == "202":
+#         return True
+#     else:
+#         return False
+
 def _delete_data(url, *args, **kwargs):
-    response = None
-    user_agent = "pyweed/{version}".format(version=__version__)
-    headers = {"User-Agent": user_agent}
-    response, content = http.request(url, "DELETE", headers=headers)
-    if response.get("status") == "200" or response.get("status") == "202":
+    res = requests.delete(url)
+    if res.status_code == 200 or res.status_code == 202:
         return True
     else:
         return False
