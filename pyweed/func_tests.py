@@ -20,6 +20,8 @@ class FunctionalTests(unittest.TestCase):
         ver = self.weed.version
         self.assertIsNotNone(ver)
 
+    # Test vacuum generated problems with Weed-FS on windows.
+    # TODO: Investigate
     # def test_vacuum(self):
     #     res = self.weed.vacuum()
     #     self.assertTrue(res)
@@ -37,3 +39,7 @@ class FunctionalTests(unittest.TestCase):
         self.assertEqual(content, file_content)
         res = self.weed.delete_file(fid)
         self.assertTrue(res)
+
+    def test_get_wrong_file(self):
+        file_content = self.weed.get_file("3,123456790")
+        self.assertIsNone(file_content)

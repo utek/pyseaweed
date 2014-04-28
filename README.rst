@@ -4,7 +4,7 @@
 PyWeed
 *********************************************************
 
-Class to simplify communication with WeedFS
+Class to simplify communication with Weed-FS_
 
 ============
 Installation
@@ -56,5 +56,6 @@ Upload file to weedFS
     # res is boolean (True if file was deleted)
 
 
+.. _Weed-FS: http://code.google.com/p/weed-fs/
 
 

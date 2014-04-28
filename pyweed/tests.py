@@ -16,22 +16,22 @@ class ReqTests(unittest.TestCase):
 
     def test_post_file(self):
         with HTTMock(response_content):
-            r = utils._post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
+            r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
             self.assertEqual(r, "OK")
 
     def test_get_data(self):
         with HTTMock(response_content):
-            r = utils._get_data("http://utek.pl")
+            r = utils.get_data("http://utek.pl")
             self.assertEqual(r, "OK")
 
     def test_get_raw_data(self):
         with HTTMock(response_content):
-            r = utils._get_raw_data("http://utek.pl")
+            r = utils.get_raw_data("http://utek.pl")
             self.assertEqual(r, b"OK")
 
     def test_delete_data(self):
         with HTTMock(response_content):
-            r = utils._delete_data("http://localhost")
+            r = utils.delete_data("http://localhost")
             self.assertTrue(r)
         pass
 

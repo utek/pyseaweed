@@ -5,10 +5,10 @@ import random
 from collections import namedtuple
 
 from .utils import (
-    _get_data,
-    _get_raw_data,
-    _post_file,
-    _delete_data,
+    get_data,
+    get_raw_data,
+    post_file,
+    delete_data,
 )
 
 from .exceptions import BadFidFormat
@@ -45,7 +45,7 @@ class WeedFS(object):
         .. versionadded:: 0.3.1
         """
         url = self.get_file_url(fid)
-        return _get_raw_data(url)
+        return get_raw_data(url)
 
     def get_file_url(self, fid):
         """
@@ -74,7 +74,7 @@ class WeedFS(object):
             master_addr=self.master_addr,
             master_port=self.master_port,
             volume_id=volume_id)
-        data = json.loads(_get_data(url))
+        data = json.loads(get_data(url))
         _file_location = random.choice(data['locations'])
         FileLocation = namedtuple('FileLocation', "public_url url")
         return FileLocation(_file_location['publicUrl'], _file_location['url'])
@@ -86,7 +86,7 @@ class WeedFS(object):
         :param string fid: File ID
         """
         url = self.get_file_url(fid)
-        return _delete_data(url)
+        return delete_data(url)
 
     def upload_file(self, file_path):
         '''
@@ -98,13 +98,13 @@ class WeedFS(object):
         url = "http://{master_addr}:{master_port}/dir/assign".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
-        data = json.loads(_get_data(url))
+        data = json.loads(get_data(url))
         if data.get("error") is not None:
             return None
         filename = os.path.basename(file_path)
         post_url = "http://{publicUrl}/{fid}".format(**data)
         with open(file_path, "rb") as file_stream:
-            res = _post_file(post_url, filename, file_stream)
+            res = post_file(post_url, filename, file_stream)
         response_data = json.loads(res)
         size = response_data.get('size')
         if size is not None:
@@ -123,7 +123,7 @@ class WeedFS(object):
             master_addr=self.master_addr,
             master_port=self.master_port,
             threshold=threshold)
-        res = _get_data(url)
+        res = get_data(url)
         if res is not None:
             return True
         return False
@@ -138,7 +138,7 @@ class WeedFS(object):
         url = "http://{master_addr}:{master_port}/dir/status".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
-        data = _get_data(url)
+        data = get_data(url)
         response_data = json.loads(data)
         return response_data.get("Version")
 
