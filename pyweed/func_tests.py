@@ -20,9 +20,9 @@ class FunctionalTests(unittest.TestCase):
         ver = self.weed.version
         self.assertIsNotNone(ver)
 
-    def test_vacuum(self):
-        res = self.weed.vacuum()
-        self.assertTrue(res)
+    # def test_vacuum(self):
+    #     res = self.weed.vacuum()
+    #     self.assertTrue(res)
 
     def test_bad_fid(self):
         self.assertRaises(BadFidFormat, self.weed.get_file_url, ("a"))
@@ -34,8 +34,6 @@ class FunctionalTests(unittest.TestCase):
         self.assertIsNotNone(file_content)
         with open(__file__, "rb") as f:
             content = f.read()
-        print(content)
-        print(file_content)
         self.assertEqual(content, file_content)
         res = self.weed.delete_file(fid)
         self.assertTrue(res)

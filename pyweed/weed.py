@@ -72,7 +72,7 @@ class WeedFS(object):
             master_addr=self.master_addr,
             master_port=self.master_port,
             volume_id=volume_id)
-        data = json.loads(_get_data(url).text)
+        data = json.loads(_get_data(url))
         _file_location = random.choice(data['locations'])
         FileLocation = namedtuple('FileLocation', "public_url url")
         return FileLocation(_file_location['publicUrl'], _file_location['url'])
@@ -96,14 +96,14 @@ class WeedFS(object):
         url = "http://{master_addr}:{master_port}/dir/assign".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
-        data = json.loads(_get_data(url).text)
+        data = json.loads(_get_data(url))
         if data.get("error") is not None:
             return None
         filename = os.path.basename(file_path)
         post_url = "http://{publicUrl}/{fid}".format(**data)
         with open(file_path, "rb") as file_stream:
             res = _post_file(post_url, filename, file_stream)
-        response_data = json.loads(res.text)
+        response_data = json.loads(res)
         size = response_data.get('size')
         if size is not None:
             return data['fid']
@@ -136,7 +136,7 @@ class WeedFS(object):
         url = "http://{master_addr}:{master_port}/dir/status".format(
             master_addr=self.master_addr,
             master_port=self.master_port)
-        data = _get_data(url).text
+        data = _get_data(url)
         response_data = json.loads(data)
         return response_data.get("Version")
 

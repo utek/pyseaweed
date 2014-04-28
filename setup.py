@@ -8,7 +8,7 @@ with open('pyweed/version.py') as f:
     exec(f.read())
 
 required_packages = [
-    "httplib2",
+    "requests",
     "six"
 ]
 
