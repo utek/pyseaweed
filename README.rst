@@ -14,6 +14,16 @@ From PyPI
 
     `pip install pyweed`
 
+============
+Tests
+============
+
+Run tests by `python setup.py tests` us if using nose: `nosetests`
+
+.. note::
+    Functional tests assumes that there is WeedFS master running on localhost:9333 (defaults).
+    If it's not then there will be errors in tests.
+
 
 ============
 Usage
