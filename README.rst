@@ -17,6 +17,9 @@ From PyPI
 ============
 Tests
 ============
+Install dependencies::
+
+    `pip install -r test_requirements.txt`
 
 Run tests::
 
