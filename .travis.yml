@@ -4,4 +4,8 @@ python:
   - "3.3"
 install:
   - "pip install ."
+  - "pip install -r test_requirements.txt"
+# We're running just the unit test
+# as functional test require for WeedFS server
+# to be started
 script: nosetests -I func_.*\.py
