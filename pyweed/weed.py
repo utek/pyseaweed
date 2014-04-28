@@ -6,6 +6,7 @@ from collections import namedtuple
 
 from .utils import (
     _get_data,
+    _get_raw_data,
     _post_data,
     _delete_data,
     _file_encode_multipart
@@ -28,6 +29,22 @@ class WeedFS(object):
             self.master_addr,
             self.master_port
         )
+
+    def get_file(self, fid):
+        """Get file from WeedFS.
+
+        Returns file content. May be problematic for large files as content is
+        stored in memory.
+
+        Args:
+            fid: File identifier <volume_id>,<file_name_hash>
+
+        Returns:
+            Content of the file with provided fid or None if file doesn't exist
+            on the server
+        """
+        url = self.get_file_url(fid)
+        return _get_raw_data(url)
 
     def get_file_url(self, fid):
         """

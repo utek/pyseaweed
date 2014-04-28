@@ -26,3 +26,16 @@ class FunctionalTests(unittest.TestCase):
 
     def test_bad_fid(self):
         self.assertRaises(BadFidFormat, self.weed.get_file_url, ("a"))
+
+    def test_get_file(self):
+        fid = self.weed.upload_file(__file__)
+        self.assertIsNotNone(fid)
+        file_content = self.weed.get_file(fid)
+        self.assertIsNotNone(file_content)
+        with open(__file__, "rb") as f:
+            content = f.read()
+        print(content)
+        print(file_content)
+        self.assertEqual(content, file_content)
+        res = self.weed.delete_file(fid)
+        self.assertTrue(res)

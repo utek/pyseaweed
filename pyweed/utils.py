@@ -21,6 +21,19 @@ def _get_data(url, *args, **kwargs):
     return content.decode("utf-8")
 
 
+def _get_raw_data(url, *args, **kwargs):
+    """helper function"""
+    response = None
+    user_agent = "pyweed/{version}".format(version=__version__)
+    headers = {"User-Agent": user_agent}
+    try:
+        response, content = http.request(url, headers=headers)
+    except Exception as e:
+        raise e
+    if response.get("status") == "200":
+        return content
+
+
 def _post_data(url, data, *args, **kwargs):
     """helper function"""
     response = None
@@ -63,7 +76,7 @@ def _file_encode_multipart(filename, file_stream):
     data.append("Content-Type: {0}".format(mimetypes.guess_type(
         filename)[0] or 'application/octet-stream'))
     data.append('')
-    data.append(str(file_stream.read()))
+    data.append(file_stream.read())
     data.append('--{0}--'.format(boundary))
     data.append('')
     content_type = 'multipart/form-data; boundary=%s' % boundary
