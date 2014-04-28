@@ -2,6 +2,7 @@ import mimetypes
 import random
 import string
 import httplib2
+import requests
 from six.moves import range
 
 from .version import __version__
@@ -50,6 +51,12 @@ def _post_data(url, data, *args, **kwargs):
     return content.decode("utf-8")
 
 
+def _post_file(url, filename, file_stream):
+    response = None
+    response = requests.post(url, files={filename: file_stream})
+    return response
+
+
 def _delete_data(url, *args, **kwargs):
     response = None
     user_agent = "pyweed/{version}".format(version=__version__)
@@ -76,7 +83,7 @@ def _file_encode_multipart(filename, file_stream):
     data.append("Content-Type: {0}".format(mimetypes.guess_type(
         filename)[0] or 'application/octet-stream'))
     data.append('')
-    data.append(file_stream.read())
+    data.append(file_stream.read().decode("utf-8"))
     data.append('--{0}--'.format(boundary))
     data.append('')
     content_type = 'multipart/form-data; boundary=%s' % boundary
