@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 # coding=utf-8
+import os
 from setuptools import setup, find_packages
 
 __version__ = "0"
 
 with open('pyweed/version.py') as f:
     exec(f.read())
+
+LICENSE = open(
+    os.path.join(os.path.dirname(__file__), 'LICENSE')).read().strip()
+
+DESCRIPTION = open(
+    os.path.join(os.path.dirname(__file__), 'README.rst')).read().strip()
 
 required_packages = [
     "requests",
@@ -14,10 +21,10 @@ required_packages = [
 
 setup(name='pyweed',
       version=__version__,
-      description="Python module to communicate with Weed-FS",
+      description=DESCRIPTION,
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
-      license=open('LICENSE.txt').read(),
+      license=LICENSE,
       long_description=open('README.rst').read(),
       url="https://github.com/utek/pyweed",
       packages=find_packages(),
