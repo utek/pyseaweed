@@ -7,10 +7,8 @@ from collections import namedtuple
 from .utils import (
     _get_data,
     _get_raw_data,
-    _post_data,
     _post_file,
     _delete_data,
-    _file_encode_multipart
 )
 
 from .exceptions import BadFidFormat
@@ -101,17 +99,10 @@ class WeedFS(object):
         data = json.loads(_get_data(url).text)
         if data.get("error") is not None:
             return None
-        # file_stream = open(file_path, "rb")
         filename = os.path.basename(file_path)
         post_url = "http://{publicUrl}/{fid}".format(**data)
         with open(file_path, "rb") as file_stream:
-            # content_type, body = _file_encode_multipart(filename, file_stream)
             res = _post_file(post_url, filename, file_stream)
-
-        # res = _post_data(
-        #     post_url, body, headers={"Content-Type": content_type,
-        #                              "Content-Length": str(len(body)),
-        #                              "Accept": "*/*"})
         response_data = json.loads(res.text)
         size = response_data.get('size')
         if size is not None:
