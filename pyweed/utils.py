@@ -9,8 +9,9 @@ def _prepare_headers(additional_headers=None, **kwargs):
     Return dict of header to be used in requests.
 
     Args:
-        additional_headers: (optional) Additional headers
-        to be used with request
+        .. versionadded:: 0.3.2
+            **additional_headers**: (optional) Additional headers
+            to be used with request
 
     Returns:
         Headers dict. Key and values are string
@@ -30,7 +31,11 @@ def get_data(url, *args, **kwargs):
     Returns content under the provided url as text
 
     Args:
-        url: address of the wanted data
+        **url**: address of the wanted data
+
+        .. versionadded:: 0.3.2
+            **additional_headers**: (optional) Additional headers
+            to be used with request
 
     Returns:
         string
@@ -50,7 +55,11 @@ def get_raw_data(url, *args, **kwargs):
     ie. for binary data
 
     Args:
-        url: address of the wanted data
+        **url**: address of the wanted data
+
+        .. versionadded:: 0.3.2
+            **additional_headers**: (optional) Additional headers
+            to be used with request
 
     Returns:
         bytes
@@ -69,9 +78,15 @@ def post_file(url, filename, file_stream, *args, **kwargs):
     Returns contents as text
 
     Args:
-        url: address where to upload file
-        filename: Name of the uploaded file
-        file_stream: file like object to upload
+        **url**: address where to upload file
+
+        **filename**: Name of the uploaded file
+
+        **file_stream**: file like object to upload
+
+        .. versionadded:: 0.3.2
+            **additional_headers**: (optional) Additional headers
+            to be used with request
 
     Returns:
         string
@@ -91,6 +106,10 @@ def delete_data(url, *args, **kwargs):
 
     Args:
         url: address of file to be deleted
+
+        .. versionadded:: 0.3.2
+            **additional_headers**: (optional) Additional headers
+            to be used with request
 
     Returns:
         Boolean. True if request was successful. False if not.

@@ -36,7 +36,7 @@ class WeedFS(object):
         stored in memory.
 
         Args:
-            fid: File identifier <volume_id>,<file_name_hash>
+            **fid**: File identifier <volume_id>,<file_name_hash>
 
         Returns:
             Content of the file with provided fid or None if file doesn't exist
