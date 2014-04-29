@@ -3,13 +3,14 @@ import requests
 from .version import __version__
 
 
-def _prepare_headers():
+def _prepare_headers(additional_headers=None, **kwargs):
     """Prepare headers for http communication.
 
     Return dict of header to be used in requests.
 
     Args:
-        None
+        additional_headers: (optional) Additional headers
+        to be used with request
 
     Returns:
         Headers dict. Key and values are string
@@ -17,6 +18,9 @@ def _prepare_headers():
     """
     user_agent = "pyweed/{version}".format(version=__version__)
     headers = {"User-Agent": user_agent}
+    if additional_headers is not None:
+        headers.update(additional_headers)
+    print(headers)
     return headers
 
 
@@ -32,7 +36,7 @@ def get_data(url, *args, **kwargs):
         string
 
     """
-    res = requests.get(url, headers=_prepare_headers())
+    res = requests.get(url, headers=_prepare_headers(**kwargs))
     if res.status_code == 200:
         return res.text
     else:
@@ -52,14 +56,14 @@ def get_raw_data(url, *args, **kwargs):
         bytes
 
     """
-    res = requests.get(url, headers=_prepare_headers())
+    res = requests.get(url, headers=_prepare_headers(**kwargs))
     if res.status_code == 200:
         return res.content
     else:
         return None
 
 
-def post_file(url, filename, file_stream):
+def post_file(url, filename, file_stream, *args, **kwargs):
     """Uploads file to provided url.
 
     Returns contents as text
@@ -73,7 +77,7 @@ def post_file(url, filename, file_stream):
         string
     """
     res = requests.post(url, files={filename: file_stream},
-                        headers=_prepare_headers())
+                        headers=_prepare_headers(**kwargs))
     if res.status_code == 200 or res.status_code == 201:
         return res.text
     else:
@@ -91,7 +95,7 @@ def delete_data(url, *args, **kwargs):
     Returns:
         Boolean. True if request was successful. False if not.
     """
-    res = requests.delete(url)
+    res = requests.delete(url, headers=_prepare_headers(**kwargs))
     if res.status_code == 200 or res.status_code == 202:
         return True
     else:
