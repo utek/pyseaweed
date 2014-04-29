@@ -105,7 +105,7 @@ def delete_data(url, *args, **kwargs):
     Returns status as boolean.
 
     Args:
-        url: address of file to be deleted
+        **url**: address of file to be deleted
 
         .. versionadded:: 0.3.2
             **additional_headers**: (optional) Additional headers
