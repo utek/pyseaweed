@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""This is helper module that contains functions
+to easeup communication with weed-fs
+
+.. moduleauthor:: Łukasz Bołdys
+"""
+
 import requests
 
 from .version import __version__

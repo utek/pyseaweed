@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""Main PyWeed module. Contains WeedFS class
+
+.. moduleauthor:: Łukasz Bołdys
+"""
+
 import json
 import os
 import random
@@ -19,6 +24,16 @@ class WeedFS(object):
     master_port = 9333
 
     def __init__(self, master_addr='localhost', master_port=9333):
+        '''Creates WeedFS instance.
+
+        Args:
+            **master_addr**: Address of weed-fs master server (default: localhost)
+
+            **master_port**: Weed-fs master server port (default: 9333)
+
+        Returns:
+            WeedFS instance.
+        '''
         self.master_addr = master_addr
         self.master_port = master_port
 

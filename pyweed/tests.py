@@ -19,6 +19,11 @@ def response_content_202(url, request):
             'content': b"OK"}
 
 
+def response_content_404(url, request):
+    return {'status_code': 404,
+            'content': b"NOK"}
+
+
 class ReqTests(unittest.TestCase):
 
     def setUp(self):
@@ -31,16 +36,25 @@ class ReqTests(unittest.TestCase):
         with HTTMock(response_content_201):
             r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
             self.assertEqual(r, "OK")
+        with HTTMock(response_content_404):
+            r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
+            self.assertIsNone(r)
 
     def test_get_data(self):
         with HTTMock(response_content):
             r = utils.get_data("http://utek.pl")
             self.assertEqual(r, "OK")
+        with HTTMock(response_content_404):
+            r = utils.get_data("http://utek.pl")
+            self.assertIsNone(r)
 
     def test_get_raw_data(self):
         with HTTMock(response_content):
             r = utils.get_raw_data("http://utek.pl")
             self.assertEqual(r, b"OK")
+        with HTTMock(response_content_404):
+            r = utils.get_raw_data("http://utek.pl")
+            self.assertIsNone(r)
 
     def test_delete_data(self):
         with HTTMock(response_content):
@@ -49,6 +63,9 @@ class ReqTests(unittest.TestCase):
         with HTTMock(response_content_202):
             r = utils.delete_data("http://localhost")
             self.assertTrue(r)
+        with HTTMock(response_content_404):
+            r = utils.delete_data("http://localhost")
+            self.assertFalse(r)
 
     def test_prepare_headers(self):
         headers = utils._prepare_headers()
