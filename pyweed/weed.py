@@ -137,11 +137,18 @@ class WeedFS(object):
         url = self.get_file_url(fid)
         return delete_data(url)
 
-    def upload_file(self, file_path):
+    def upload_file(self, path=None, stream=None, name=None, **kwargs):
         '''
         Uploads file to WeedFS
 
-        :param string file_path:
+        I takes either path or stream and name and upload it
+        to WeedFS server.
+
+        Returns fid of the uploaded file.
+
+        :param string path:
+        :param string stream:
+        :param string name:
         :rtype: string or None
         '''
         url = "http://{master_addr}:{master_port}/dir/assign".format(
@@ -150,22 +157,28 @@ class WeedFS(object):
         data = json.loads(get_data(url))
         if data.get("error") is not None:
             return None
-        filename = os.path.basename(file_path)
         post_url = "http://{publicUrl}/{fid}".format(**data)
-        with open(file_path, "rb") as file_stream:
-            res = post_file(post_url, filename, file_stream)
-        response_data = json.loads(res)
-        size = response_data.get('size')
-        if size is not None:
-            return data['fid']
+
+        if path is not None:
+            filename = os.path.basename(path)
+            with open(path, "rb") as file_stream:
+                res = post_file(post_url, filename, file_stream)
+        # we have file like object and filename
+        elif stream is not None and name is not None:
+            res = post_file(post_url, name, stream)
         else:
-            return None
+            raise ValueError("If `path` is None then *both* `stream` and `name` must not be None ")
+        response_data = json.loads(res)
+        if "size" in response_data:
+            return data.get('fid')
+        return None
 
     def vacuum(self, threshold=0.3):
         '''
         Force garbage collection
 
-        :param float threshold (optional): The threshold is optional, and will not change the default threshold.
+        :param float threshold (optional): The threshold is optional,
+        and will not change the default threshold.
         :rtype: boolean
         '''
         url = "http://{master_addr}:{master_port}/vol/vacuum?garbageThreshold={threshold}".format(

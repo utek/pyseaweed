@@ -101,5 +101,9 @@ class WeedFSTests(unittest.TestCase):
         self.weed = WeedFS()
         pass
 
-    def test_repr(self):
-        self.assertEqual(str(self.weed), "<WeedFS localhost:9333>")
+        def test_repr(self):
+            self.assertEqual(str(self.weed), "<WeedFS localhost:9333>")
+
+        def test_exception(self):
+            self.assertRaises(ValueError, self.weed.upload_file(stream=None, name="test.py"))
+            self.assertRaises(ValueError, self.weed.upload_file(stream=open(__file__, "rb")))

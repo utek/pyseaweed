@@ -37,6 +37,13 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue(res)
         self.assertFalse(self.weed.file_exists(fid))
 
+    def test_upload_stream(self):
+        with open(__file__, "rb") as stream:
+            fid = self.weed.upload_file(stream=stream, name="test.py")
+            self.assertIsNotNone(fid)
+        res = self.weed.delete_file(fid)
+        self.assertTrue(res)
+
     # Test vacuum generated problems with Weed-FS on windows.
     # TODO: Investigate
     # def test_vacuum(self):
