@@ -109,11 +109,24 @@ class WeedFS(object):
         url = self.get_file_url(fid)
         res = head(url)
         if res is not None:
-            print res.headers
             size = res.headers.get("content-length", None)
             if size is not None:
                 return int(size)
         return None
+
+    def file_exists(self, fid):
+        """Checks if file with provided fid exists
+
+        Args:
+            **fid**: File identifier <volume_id>,<file_name_hash>
+
+        Returns:
+            True if file exists. False if not.
+        """
+        res = self.get_file_size(fid)
+        if res is not None:
+            return True
+        return False
 
     def delete_file(self, fid):
         """
