@@ -14,6 +14,7 @@ from .utils import (
     get_raw_data,
     post_file,
     delete_data,
+    head
 )
 
 from .exceptions import BadFidFormat
@@ -93,6 +94,26 @@ class WeedFS(object):
         _file_location = random.choice(data['locations'])
         FileLocation = namedtuple('FileLocation', "public_url url")
         return FileLocation(_file_location['publicUrl'], _file_location['url'])
+
+    def get_file_size(self, fid):
+        """
+        Gets size of uploaded file
+        Or None if file doesn't exist.
+
+        Args:
+            **fid**: File identifier <volume_id>,<file_name_hash>
+
+        Returns:
+            Int or None
+        """
+        url = self.get_file_url(fid)
+        res = head(url)
+        if res is not None:
+            print res.headers
+            size = res.headers.get("content-length", None)
+            if size is not None:
+                return int(size)
+        return None
 
     def delete_file(self, fid):
         """

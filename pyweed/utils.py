@@ -28,8 +28,17 @@ def _prepare_headers(additional_headers=None, **kwargs):
     headers = {"User-Agent": user_agent}
     if additional_headers is not None:
         headers.update(additional_headers)
-    print(headers)
     return headers
+
+
+def head(url, *args, **kwargs):
+    """Returns response to http HEAD
+    on provided url
+    """
+    res = requests.head(url, headers=_prepare_headers(**kwargs))
+    if res.status_code == 200:
+        return res
+    return None
 
 
 def get_data(url, *args, **kwargs):

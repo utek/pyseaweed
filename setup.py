@@ -21,7 +21,7 @@ required_packages = [
 
 setup(name='pyweed',
       version=__version__,
-      description=DESCRIPTION,
+      description="Module to simplify usage of WeedFS in python.",
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
       license=LICENSE,

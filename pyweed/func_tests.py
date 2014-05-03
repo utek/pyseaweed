@@ -10,6 +10,16 @@ class FunctionalTests(unittest.TestCase):
     def setUp(self):
         self.weed = WeedFS()
 
+    def test_head_file(self):
+        fid = self.weed.upload_file(__file__)
+        self.assertIsNotNone(fid)
+        res = self.weed.get_file_size(fid)
+        self.assertEqual(res, os.path.getsize(__file__))
+        res = self.weed.delete_file(fid)
+        self.assertTrue(res)
+        res = self.weed.get_file_size("3,123456790")
+        self.assertIsNone(res)
+
     def test_upload_delete(self):
         fid = self.weed.upload_file(__file__)
         self.assertIsNotNone(fid)
