@@ -150,6 +150,7 @@ class WeedFS(object):
         :param string stream:
         :param string name:
         :rtype: string or None
+
         '''
         url = "http://{master_addr}:{master_port}/dir/assign".format(
             master_addr=self.master_addr,
@@ -177,9 +178,9 @@ class WeedFS(object):
         '''
         Force garbage collection
 
-        :param float threshold (optional): The threshold is optional,
-        and will not change the default threshold.
+        :param float threshold (optional): The threshold is optional, and will not change the default threshold.
         :rtype: boolean
+
         '''
         url = "http://{master_addr}:{master_port}/vol/vacuum?garbageThreshold={threshold}".format(
             master_addr=self.master_addr,
