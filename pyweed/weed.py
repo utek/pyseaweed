@@ -63,11 +63,12 @@ class WeedFS(object):
         url = self.get_file_url(fid)
         return get_raw_data(url)
 
-    def get_file_url(self, fid):
+    def get_file_url(self, fid, public=True):
         """
         Get url for the file
 
         :param string fid: File ID
+        :param boolean public: public or internal url
         :rtype: string
         """
         try:
@@ -75,7 +76,8 @@ class WeedFS(object):
         except ValueError:
             raise BadFidFormat("fid must be in format: <volume_id>,<file_name_hash>")
         file_location = self.get_file_location(volume_id)
-        url = "http://{public_url}/{fid}".format(public_url=file_location.public_url, fid=fid)
+        volume_url = file_location.public_url if public else file_location.url
+        url = "http://{volume_url}/{fid}".format(volume_url=volume_url, fid=fid)
         return url
 
     def get_file_location(self, volume_id):
@@ -158,7 +160,7 @@ class WeedFS(object):
         data = json.loads(get_data(url))
         if data.get("error") is not None:
             return None
-        post_url = "http://{publicUrl}/{fid}".format(**data)
+        post_url = "http://{url}/{fid}".format(**data)
 
         if path is not None:
             filename = os.path.basename(path)
