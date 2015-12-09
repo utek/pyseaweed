@@ -140,7 +140,7 @@ class WeedFS(object):
         return delete_data(url)
 
     def upload_file(self, path=None, stream=None, name=None, **kwargs):
-        '''
+        """
         Uploads file to WeedFS
 
         I takes either path or stream and name and upload it
@@ -153,10 +153,14 @@ class WeedFS(object):
         :param string name:
         :rtype: string or None
 
-        '''
-        url = "http://{master_addr}:{master_port}/dir/assign".format(
+        """
+        params = "&".join(["%s=%s" % (k, v) for k, v in kwargs.items()])
+        url = "http://{master_addr}:{master_port}/dir/assign{params}".format(
             master_addr=self.master_addr,
-            master_port=self.master_port)
+            master_port=self.master_port,
+            params="?" + params if params else ''
+        )
+
         data = json.loads(get_data(url))
         if data.get("error") is not None:
             return None
