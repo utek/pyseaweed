@@ -1,8 +1,14 @@
+# -*- coding: utf-8 -*-
+# vi:si:et:sw=4:sts=4:ts=4
+
+
 from __future__ import print_function
+
 import os
 import unittest
-from .weed import WeedFS
-from .exceptions import BadFidFormat
+
+from pyweed.exceptions import BadFidFormat
+from pyweed.weed import WeedFS
 
 
 class FunctionalTests(unittest.TestCase):

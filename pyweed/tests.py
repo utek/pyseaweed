@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
+# vi:si:et:sw=4:sts=4:ts=4
+
+
 import unittest
+
 from httmock import HTTMock
-from . import utils
-from .weed import WeedFS
+from pyweed import utils
+from pyweed.weed import WeedFS
 
 
 def response_content(url, request):
@@ -31,13 +36,16 @@ class ReqTests(unittest.TestCase):
 
     def test_post_file(self):
         with HTTMock(response_content):
-            r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
+            r = utils.post_file("http://utek.pl", "tets.py",
+                                open(__file__, "rb"))
             self.assertEqual(r, "OK")
         with HTTMock(response_content_201):
-            r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
+            r = utils.post_file("http://utek.pl", "tets.py",
+                                open(__file__, "rb"))
             self.assertEqual(r, "OK")
         with HTTMock(response_content_404):
-            r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"))
+            r = utils.post_file("http://utek.pl", "tets.py",
+                                open(__file__, "rb"))
             self.assertIsNone(r)
 
     def test_get_data(self):
@@ -81,7 +89,8 @@ class ReqTests(unittest.TestCase):
         self.assertIsInstance(headers, dict)
         self.assertIsNotNone(headers.get("X-Test"))
         with HTTMock(response_content):
-            r = utils.post_file("http://utek.pl", "tets.py", open(__file__, "rb"),
+            r = utils.post_file("http://utek.pl", "tets.py",
+                                open(__file__, "rb"),
                                 additional_headers=additional_headers)
             self.assertEqual(r, "OK")
             r = utils.get_data("http://utek.pl",
@@ -105,5 +114,7 @@ class WeedFSTests(unittest.TestCase):
             self.assertEqual(str(self.weed), "<WeedFS localhost:9333>")
 
         def test_exception(self):
-            self.assertRaises(ValueError, self.weed.upload_file(stream=None, name="test.py"))
-            self.assertRaises(ValueError, self.weed.upload_file(stream=open(__file__, "rb")))
+            self.assertRaises(ValueError, self.weed.upload_file(
+                stream=None, name="test.py"))
+            self.assertRaises(ValueError, self.weed.upload_file(
+                stream=open(__file__, "rb")))

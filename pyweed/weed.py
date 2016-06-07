@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Main PyWeed module. Contains WeedFS class
+# vi:si:et:sw=4:sts=4:ts=4
 
-.. moduleauthor:: Łukasz Bołdys
+
+"""Main PyWeed module. Contains WeedFS class
 """
 
 import json
@@ -9,15 +10,8 @@ import os
 import random
 from collections import namedtuple
 
-from .utils import (
-    get_data,
-    get_raw_data,
-    post_file,
-    delete_data,
-    head
-)
-
-from .exceptions import BadFidFormat
+from pyweed.exceptions import BadFidFormat
+from pyweed.utils import delete_data, get_data, get_raw_data, head, post_file
 
 
 class WeedFS(object):
@@ -28,7 +22,8 @@ class WeedFS(object):
         '''Creates WeedFS instance.
 
         Args:
-            **master_addr**: Address of weed-fs master server (default: localhost)
+            **master_addr**: Address of weed-fs master server
+                             (default: localhost)
 
             **master_port**: Weed-fs master server port (default: 9333)
 
@@ -55,8 +50,8 @@ class WeedFS(object):
             **fid**: File identifier <volume_id>,<file_name_hash>
 
         Returns:
-            Content of the file with provided fid or None if file doesn't exist
-            on the server
+            Content of the file with provided fid or None if file doesn't
+            exist on the server
 
         .. versionadded:: 0.3.1
         """
@@ -73,9 +68,11 @@ class WeedFS(object):
         try:
             volume_id, rest = fid.strip().split(",")
         except ValueError:
-            raise BadFidFormat("fid must be in format: <volume_id>,<file_name_hash>")
+            raise BadFidFormat(
+                "fid must be in format: <volume_id>,<file_name_hash>")
         file_location = self.get_file_location(volume_id)
-        url = "http://{public_url}/{fid}".format(public_url=file_location.public_url, fid=fid)
+        url = "http://{public_url}/{fid}".format(
+            public_url=file_location.public_url, fid=fid)
         return url
 
     def get_file_location(self, volume_id):
@@ -86,7 +83,8 @@ class WeedFS(object):
         :param integer volume_id: volume_id
         :rtype: namedtuple `FileLocation` `{"public_url":"", "url":""}`
         """
-        url = "http://{master_addr}:{master_port}/dir/lookup?volumeId={volume_id}".format(
+        url = ("http://{master_addr}:{master_port}/"
+               "dir/lookup?volumeId={volume_id}").format(
             master_addr=self.master_addr,
             master_port=self.master_port,
             volume_id=volume_id)
@@ -168,7 +166,9 @@ class WeedFS(object):
         elif stream is not None and name is not None:
             res = post_file(post_url, name, stream)
         else:
-            raise ValueError("If `path` is None then *both* `stream` and `name` must not be None ")
+            raise ValueError(
+                "If `path` is None then *both* `stream` and `name` must not"
+                " be None ")
         response_data = json.loads(res)
         if "size" in response_data:
             return data.get('fid')
@@ -178,11 +178,13 @@ class WeedFS(object):
         '''
         Force garbage collection
 
-        :param float threshold (optional): The threshold is optional, and will not change the default threshold.
+        :param float threshold (optional): The threshold is optional, and
+        will not change the default threshold.
         :rtype: boolean
 
         '''
-        url = "http://{master_addr}:{master_port}/vol/vacuum?garbageThreshold={threshold}".format(
+        url = ("http://{master_addr}:{master_port}/"
+               "vol/vacuum?garbageThreshold={threshold}").format(
             master_addr=self.master_addr,
             master_port=self.master_port,
             threshold=threshold)

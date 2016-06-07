@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+# vi:si:et:sw=4:sts=4:ts=4
+
+
 """This is helper module that contains functions
 to easeup communication with weed-fs
-
-.. moduleauthor:: Łukasz Bołdys
 """
 
 import requests
-
-from .version import __version__
+from pyweed.version import __version__
 
 
 def _prepare_headers(additional_headers=None, **kwargs):
