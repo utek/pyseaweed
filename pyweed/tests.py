@@ -115,7 +115,8 @@ class WeedFSTests(unittest.TestCase):
         self.assertEqual(str(self.weed), "<WeedFS localhost:9333>")
 
     def test_exception(self):
-        with self.assertRaises(ValueError):
-            self.weed.upload_file(stream=None, name="test.py")
-        with self.assertRaises(ValueError):
-            self.weed.upload_file(stream=open(__file__, "rb"))
+        with HTTMock(response_content):
+            with self.assertRaises(ValueError):
+                self.weed.upload_file(stream=None, name="test.py")
+            with self.assertRaises(ValueError):
+                self.weed.upload_file(stream=open(__file__, "rb"))

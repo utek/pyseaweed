@@ -1,5 +1,3 @@
-.. image:: https://travis-ci.org/utek/pyweed.svg?branch=master
-
 *********************************************************
 PyWeed
 *********************************************************
@@ -56,6 +54,6 @@ Upload file to weedFS
     # res is boolean (True if file was deleted)
 
 
-.. _Weed-FS: http://code.google.com/p/weed-fs/
+.. _Weed-FS: https://github.com/chrislusf/seaweedfs
 
 
