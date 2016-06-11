@@ -62,11 +62,12 @@ class WeedFS(object):
         url = self.get_file_url(fid)
         return self.conn.get_raw_data(url)
 
-    def get_file_url(self, fid):
+    def get_file_url(self, fid, public=True):
         """
         Get url for the file
 
         :param string fid: File ID
+        :param boolean public: public or internal url
         :rtype: string
         """
         try:
@@ -75,8 +76,9 @@ class WeedFS(object):
             raise BadFidFormat(
                 "fid must be in format: <volume_id>,<file_name_hash>")
         file_location = self.get_file_location(volume_id)
-        url = "http://{public_url}/{fid}".format(
-            public_url=file_location.public_url, fid=fid)
+        volume_url = file_location.public_url if public else file_location.url
+        url = "http://{volume_urls}/{fid}".format(
+            volume_url=volume_url, fid=fid)
         return url
 
     def get_file_location(self, volume_id):
@@ -140,7 +142,7 @@ class WeedFS(object):
         return self.conn.delete_data(url)
 
     def upload_file(self, path=None, stream=None, name=None, **kwargs):
-        '''
+        """
         Uploads file to WeedFS
 
         I takes either path or stream and name and upload it
@@ -153,14 +155,17 @@ class WeedFS(object):
         :param string name:
         :rtype: string or None
 
-        '''
-        url = "http://{master_addr}:{master_port}/dir/assign".format(
+        """
+        params = "&".join(["%s=%s" % (k, v) for k, v in kwargs.items()])
+        url = "http://{master_addr}:{master_port}/dir/assign{params}".format(
             master_addr=self.master_addr,
-            master_port=self.master_port)
+            master_port=self.master_port,
+            params="?" + params if params else ''
+        )
         data = json.loads(self.conn.get_data(url))
         if data.get("error") is not None:
             return None
-        post_url = "http://{publicUrl}/{fid}".format(**data)
+        post_url = "http://{url}/{fid}".format(**data)
 
         if path is not None:
             filename = os.path.basename(path)
