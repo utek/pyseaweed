@@ -2,7 +2,7 @@
 Intro
 ***************
 
-Python module to communicate with Weed-FS_.
+Python module to communicate with Seaweed-FS_.
 
 
 ============
@@ -11,18 +11,18 @@ Installation
 
 From PyPI::
 
-    pip install pyweed
+    pip install pyseaweed
 
 
 From GitHub::
 
-    pip install git+https://github.com/utek/pyweed.git
+    pip install git+https://github.com/utek/pyseaweed.git
 
 
 From source::
 
-    git clone https://github.com/utek/pyweed.git
-    cd pyweed
+    git clone git@github.com:utek/pyseaweed.git
+    cd pyseaweed
     python setup.py install
 
 ============
@@ -53,7 +53,7 @@ Upload file to weedFS
 
 .. code-block:: python
 
-    from pyweed import WeedFS
+    from pyseaweed import WeedFS
 
     # File upload
     w = WeedFS("localhost", 9333) # weed-fs master address and port
@@ -68,4 +68,4 @@ Upload file to weedFS
 
 
 
-.. _Weed-FS: http://code.google.com/p/weed-fs/
+.. _Weed-FS: https://github.com/chrislusf/seaweedfs

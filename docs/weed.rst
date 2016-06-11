@@ -2,7 +2,7 @@
 WeedFS
 ===============
 
-.. automodule:: pyweed.weed
+.. automodule:: pyseaweed.weed
     :members:
 
     .. autoclass:: WeedFS
@@ -15,5 +15,5 @@ WeedFS
 Utils
 ===============
 
-.. automodule:: pyweed.utils
+.. automodule:: pyseaweed.utils
     :members:

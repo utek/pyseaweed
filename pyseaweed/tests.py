@@ -5,8 +5,8 @@
 import unittest
 
 from httmock import HTTMock
-from pyweed.utils import Connection
-from pyweed.weed import WeedFS
+from pyseaweed.utils import Connection
+from pyseaweed.weed import WeedFS
 
 
 def response_content(url, request):

@@ -1,5 +1,5 @@
 *********************************************************
-PyWeed
+PySeaweed
 *********************************************************
 
 Class to simplify communication with Weed-FS_
@@ -10,7 +10,7 @@ Installation
 
 From PyPI::
 
-    pip install pyweed
+    pip install pyseaweed
 
 ============
 Tests
@@ -40,7 +40,7 @@ Upload file to weedFS
 
 .. code-block:: python
 
-    from pyweed import WeedFS
+    from pyseaweed import WeedFS
 
     # File upload
     w = WeedFS("localhost", 9333) # weed-fs master address and port

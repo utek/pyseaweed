@@ -7,8 +7,8 @@ from __future__ import print_function
 import os
 import unittest
 
-from pyweed.exceptions import BadFidFormat
-from pyweed.weed import WeedFS
+from pyseaweed.exceptions import BadFidFormat
+from pyseaweed.weed import WeedFS
 
 
 class FunctionalTests(unittest.TestCase):

@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 
 __version__ = "0"
 
-with open('pyweed/version.py') as f:
+with open('pyseaweed/version.py') as f:
     exec(f.read())
 
 LICENSE = open(
@@ -20,17 +20,17 @@ required_packages = [
     "six"
 ]
 
-setup(name='pyweed',
+setup(name='pyseaweed',
       version=__version__,
       description="Module to simplify usage of WeedFS in python.",
       author="Łukasz Bołdys",
       author_email="mail@utek.pl",
       license=LICENSE,
       long_description=open('README.rst').read(),
-      url="https://github.com/utek/pyweed",
+      url="https://github.com/utek/pyseaweed",
       packages=find_packages(),
       include_package_data=True,
-      test_suite="pyweed",
+      test_suite="pyseaweed",
       install_requires=required_packages,
       classifiers=[
           "Intended Audience :: Developers",

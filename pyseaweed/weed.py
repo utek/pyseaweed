@@ -2,7 +2,7 @@
 # vi:si:et:sw=4:sts=4:ts=4
 
 
-"""Main PyWeed module. Contains WeedFS class
+"""Main PySeaweed module. Contains WeedFS class
 """
 
 import json
@@ -10,8 +10,8 @@ import os
 import random
 from collections import namedtuple
 
-from pyweed.exceptions import BadFidFormat
-from pyweed.utils import Connection
+from pyseaweed.exceptions import BadFidFormat
+from pyseaweed.utils import Connection
 
 
 class WeedFS(object):

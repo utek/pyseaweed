@@ -7,7 +7,7 @@ to easeup communication with weed-fs
 """
 
 import requests
-from pyweed.version import __version__
+from pyseaweed.version import __version__
 
 
 class Connection(object):
@@ -32,7 +32,7 @@ class Connection(object):
             Headers dict. Key and values are string
 
         """
-        user_agent = "pyweed/{version}".format(version=__version__)
+        user_agent = "pyseaweed/{version}".format(version=__version__)
         headers = {"User-Agent": user_agent}
         if additional_headers is not None:
             headers.update(additional_headers)
