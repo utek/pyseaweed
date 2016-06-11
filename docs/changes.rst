@@ -3,6 +3,19 @@ Changelog
 ===========
 
 -------
+1.0.0
+-------
+
+    - Rename to `pyseaweed`
+
+-------
+0.3.5
+-------
+
+    - Code cleanup
+    - Adds ability to use `requests.Session()`
+
+-------
 0.3.3
 -------
 

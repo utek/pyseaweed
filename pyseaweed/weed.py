@@ -77,7 +77,7 @@ class WeedFS(object):
                 "fid must be in format: <volume_id>,<file_name_hash>")
         file_location = self.get_file_location(volume_id)
         volume_url = file_location.public_url if public else file_location.url
-        url = "http://{volume_urls}/{fid}".format(
+        url = "http://{volume_url}/{fid}".format(
             volume_url=volume_url, fid=fid)
         return url
 
