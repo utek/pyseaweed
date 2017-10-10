@@ -19,7 +19,7 @@ class WeedFS(object):
     master_port = 9333
 
     def __init__(self, master_addr='localhost', master_port=9333,
-                 use_session=False):
+                 use_session=False, use_public_url=True):
         '''Creates WeedFS instance.
 
         Args:
@@ -29,6 +29,8 @@ class WeedFS(object):
             **master_port**: Weed-fs master server port (default: 9333)
             **use_session**: Use request.Session() for connections instead of
                              requests themselves. (default: False)
+            **use_public_url**: If ``True``, all the requests will use
+                             ``publicUrl`` link instead of ``url``.
 
         Returns:
             WeedFS instance.
@@ -36,6 +38,7 @@ class WeedFS(object):
         self.master_addr = master_addr
         self.master_port = master_port
         self.conn = Connection(use_session)
+        self.use_public_url = use_public_url
 
     def __repr__(self):
         return "<{0} {1}:{2}>".format(
@@ -62,7 +65,7 @@ class WeedFS(object):
         url = self.get_file_url(fid)
         return self.conn.get_raw_data(url)
 
-    def get_file_url(self, fid, public=True):
+    def get_file_url(self, fid, public=None):
         """
         Get url for the file
 
@@ -76,6 +79,8 @@ class WeedFS(object):
             raise BadFidFormat(
                 "fid must be in format: <volume_id>,<file_name_hash>")
         file_location = self.get_file_location(volume_id)
+        if public is None:
+            public = self.use_public_url
         volume_url = file_location.public_url if public else file_location.url
         url = "http://{volume_url}/{fid}".format(
             volume_url=volume_url, fid=fid)
@@ -165,7 +170,10 @@ class WeedFS(object):
         data = json.loads(self.conn.get_data(url))
         if data.get("error") is not None:
             return None
-        post_url = "http://{url}/{fid}".format(**data)
+        post_url = "http://{url}/{fid}".format(
+            url=data['publicUrl' if self.use_public_url else 'url'],
+            fid=data['fid']
+        )
 
         if path is not None:
             filename = os.path.basename(path)
