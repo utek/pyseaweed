@@ -12,7 +12,6 @@ from pyseaweed.weed import WeedFS
 
 
 class FunctionalTests(unittest.TestCase):
-
     def setUp(self):
         self.weed = WeedFS()
 
@@ -77,7 +76,6 @@ class FunctionalTests(unittest.TestCase):
 
 
 class FunctionalTestsSession(unittest.TestCase):
-
     def setUp(self):
         self.weed = WeedFS(use_session=True)
 

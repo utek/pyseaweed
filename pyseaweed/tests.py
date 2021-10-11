@@ -5,48 +5,47 @@
 import unittest
 
 from httmock import HTTMock
+
 from pyseaweed.utils import Connection
 from pyseaweed.weed import WeedFS
 
 
 def response_content(url, request):
-    return {'status_code': 200,
-            'content': b"OK"}
+    return {"status_code": 200, "content": b"OK"}
 
 
 def response_content_201(url, request):
-    return {'status_code': 201,
-            'content': b"OK"}
+    return {"status_code": 201, "content": b"OK"}
 
 
 def response_content_202(url, request):
-    return {'status_code': 202,
-            'content': b"OK"}
+    return {"status_code": 202, "content": b"OK"}
 
 
 def response_content_404(url, request):
-    return {'status_code': 404,
-            'content': b"NOK"}
+    return {"status_code": 404, "content": b"NOK"}
 
 
 class ReqTests(unittest.TestCase):
-
     def setUp(self):
         self.conn = Connection()
         pass
 
     def test_post_file(self):
         with HTTMock(response_content):
-            r = self.conn.post_file("http://utek.pl", "tets.py",
-                                    open(__file__, "rb"))
+            r = self.conn.post_file(
+                "http://utek.pl", "tets.py", open(__file__, "rb")
+            )
             self.assertEqual(r, "OK")
         with HTTMock(response_content_201):
-            r = self.conn.post_file("http://utek.pl", "tets.py",
-                                    open(__file__, "rb"))
+            r = self.conn.post_file(
+                "http://utek.pl", "tets.py", open(__file__, "rb")
+            )
             self.assertEqual(r, "OK")
         with HTTMock(response_content_404):
-            r = self.conn.post_file("http://utek.pl", "tets.py",
-                                    open(__file__, "rb"))
+            r = self.conn.post_file(
+                "http://utek.pl", "tets.py", open(__file__, "rb")
+            )
             self.assertIsNone(r)
 
     def test_get_data(self):
@@ -90,23 +89,28 @@ class ReqTests(unittest.TestCase):
         self.assertIsInstance(headers, dict)
         self.assertIsNotNone(headers.get("X-Test"))
         with HTTMock(response_content):
-            r = self.conn.post_file("http://utek.pl", "tets.py",
-                                    open(__file__, "rb"),
-                                    additional_headers=additional_headers)
+            r = self.conn.post_file(
+                "http://utek.pl",
+                "tets.py",
+                open(__file__, "rb"),
+                additional_headers=additional_headers,
+            )
             self.assertEqual(r, "OK")
-            r = self.conn.get_data("http://utek.pl",
-                                   additional_headers=additional_headers)
+            r = self.conn.get_data(
+                "http://utek.pl", additional_headers=additional_headers
+            )
             self.assertEqual(r, "OK")
-            r = self.conn.get_raw_data("http://utek.pl",
-                                       additional_headers=additional_headers)
+            r = self.conn.get_raw_data(
+                "http://utek.pl", additional_headers=additional_headers
+            )
             self.assertEqual(r, b"OK")
-            r = self.conn.delete_data("http://localhost",
-                                      additional_headers=additional_headers)
+            r = self.conn.delete_data(
+                "http://localhost", additional_headers=additional_headers
+            )
             self.assertTrue(r)
 
 
 class WeedFSTests(unittest.TestCase):
-
     def setUp(self):
         self.weed = WeedFS()
         pass

@@ -7,11 +7,11 @@ to easeup communication with weed-fs
 """
 
 import requests
+
 from pyseaweed.version import __version__
 
 
 class Connection(object):
-
     def __init__(self, use_session=False):
         if use_session:
             self._conn = requests.Session()
@@ -111,8 +111,11 @@ class Connection(object):
         Returns:
             string
         """
-        res = self._conn.post(url, files={filename: file_stream},
-                              headers=self._prepare_headers(**kwargs))
+        res = self._conn.post(
+            url,
+            files={filename: file_stream},
+            headers=self._prepare_headers(**kwargs),
+        )
         if res.status_code == 200 or res.status_code == 201:
             return res.text
         else:

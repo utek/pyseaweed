@@ -2,7 +2,7 @@
 PySeaweed
 *********************************************************
 
-Class to simplify communication with Weed-FS_
+Class to simplify communication with Seaweed-FS_
 
 ============
 Installation
@@ -28,7 +28,7 @@ Or using nose::
     nosetests
 
 .. note::
-    Functional tests assumes that there is WeedFS master running on localhost:9333 (defaults).
+    Functional tests assumes that there is Seaweed-FS master running on localhost:9333 (defaults).
     If it's not then there will be errors in tests.
 
 
@@ -55,5 +55,3 @@ Upload file to weedFS
 
 
 .. _Weed-FS: https://github.com/chrislusf/seaweedfs
-
-
