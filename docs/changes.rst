@@ -3,6 +3,15 @@ Changelog
 ===========
 
 -------
+2.0.0
+-------
+
+    - Rename module to `pyseaweed`
+    - Add pre-commit configuration
+    - Code formatting
+    - Remove Py27, Py34 from tests
+
+-------
 1.0.0
 -------
 

@@ -5,4 +5,3 @@ max-complexity = 35
 select = C,E,F,W
 exclude =
     __pycache__
-

@@ -2,7 +2,7 @@
 # vi:si:et:sw=4:sts=4:ts=4
 
 
-"""Main PySeaweed module. Contains WeedFS class
+"""Main PySeaweed module. Contains SeaweedFS class
 """
 
 import json
@@ -14,7 +14,7 @@ from pyseaweed.exceptions import BadFidFormat
 from pyseaweed.utils import Connection
 
 
-class WeedFS(object):
+class SeaweedFS(object):
     master_addr = "localhost"
     master_port = 9333
 
@@ -25,10 +25,10 @@ class WeedFS(object):
         use_session=False,
         use_public_url=True,
     ):
-        """Creates WeedFS instance.
+        """Creates SeaweedFS instance.
 
         Args:
-            **master_addr**: Address of weed-fs master server
+            **master_addr**: Address of Seaweed-fs master server
                              (default: localhost)
 
             **master_port**: Weed-fs master server port (default: 9333)
@@ -38,7 +38,7 @@ class WeedFS(object):
                              ``publicUrl`` link instead of ``url``.
 
         Returns:
-            WeedFS instance.
+            SeaweedFS instance.
         """
         self.master_addr = master_addr
         self.master_port = master_port
@@ -51,7 +51,7 @@ class WeedFS(object):
         )
 
     def get_file(self, fid):
-        """Get file from WeedFS.
+        """Get file from SeaweedFS.
 
         Returns file content. May be problematic for large files as content is
         stored in memory.
@@ -94,7 +94,7 @@ class WeedFS(object):
     def get_file_location(self, volume_id):
         """
         Get location for the file,
-        WeedFS volume is choosed randomly
+        SeaweedFS volume is choosed randomly
 
         :param integer volume_id: volume_id
         :rtype: namedtuple `FileLocation` `{"public_url":"", "url":""}`
@@ -114,7 +114,8 @@ class WeedFS(object):
 
     def get_file_size(self, fid):
         """
-        Gets size of uploaded file
+        Gets size of uploaded file on SeaweedFS volume. For some type of files
+        Gzip Compression might be applied.
         Or None if file doesn't exist.
 
         Args:
@@ -147,7 +148,7 @@ class WeedFS(object):
 
     def delete_file(self, fid):
         """
-        Delete file from WeedFS
+        Delete file from SeaweedFS
 
         :param string fid: File ID
         """
@@ -156,10 +157,10 @@ class WeedFS(object):
 
     def upload_file(self, path=None, stream=None, name=None, **kwargs):
         """
-        Uploads file to WeedFS
+        Uploads file to SeaweedFS
 
         I takes either path or stream and name and upload it
-        to WeedFS server.
+        to SeaweedFS server.
 
         Returns fid of the uploaded file.
 

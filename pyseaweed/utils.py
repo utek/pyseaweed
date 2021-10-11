@@ -3,7 +3,7 @@
 
 
 """This is helper module that contains functions
-to easeup communication with weed-fs
+to easeup communication with seaweed-fs
 """
 
 import requests

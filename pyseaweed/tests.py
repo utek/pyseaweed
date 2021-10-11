@@ -6,8 +6,8 @@ import unittest
 
 from httmock import HTTMock
 
+from pyseaweed.seaweed import SeaweedFS
 from pyseaweed.utils import Connection
-from pyseaweed.weed import WeedFS
 
 
 def response_content(url, request):
@@ -34,17 +34,17 @@ class ReqTests(unittest.TestCase):
     def test_post_file(self):
         with HTTMock(response_content):
             r = self.conn.post_file(
-                "http://utek.pl", "tets.py", open(__file__, "rb")
+                "http://utek.pl", "tests.py", open(__file__, "rb")
             )
             self.assertEqual(r, "OK")
         with HTTMock(response_content_201):
             r = self.conn.post_file(
-                "http://utek.pl", "tets.py", open(__file__, "rb")
+                "http://utek.pl", "tests.py", open(__file__, "rb")
             )
             self.assertEqual(r, "OK")
         with HTTMock(response_content_404):
             r = self.conn.post_file(
-                "http://utek.pl", "tets.py", open(__file__, "rb")
+                "http://utek.pl", "tests.py", open(__file__, "rb")
             )
             self.assertIsNone(r)
 
@@ -91,7 +91,7 @@ class ReqTests(unittest.TestCase):
         with HTTMock(response_content):
             r = self.conn.post_file(
                 "http://utek.pl",
-                "tets.py",
+                "tests.py",
                 open(__file__, "rb"),
                 additional_headers=additional_headers,
             )
@@ -110,17 +110,17 @@ class ReqTests(unittest.TestCase):
             self.assertTrue(r)
 
 
-class WeedFSTests(unittest.TestCase):
+class SeaweedFSTests(unittest.TestCase):
     def setUp(self):
-        self.weed = WeedFS()
+        self.seaweed = SeaweedFS()
         pass
 
     def test_repr(self):
-        self.assertEqual(str(self.weed), "<WeedFS localhost:9333>")
+        self.assertEqual(str(self.seaweed), "<SeaweedFS localhost:9333>")
 
     def test_exception(self):
         with HTTMock(response_content):
             with self.assertRaises(ValueError):
-                self.weed.upload_file(stream=None, name="test.py")
+                self.seaweed.upload_file(stream=None, name="test.py")
             with self.assertRaises(ValueError):
-                self.weed.upload_file(stream=open(__file__, "rb"))
+                self.seaweed.upload_file(stream=open(__file__, "rb"))

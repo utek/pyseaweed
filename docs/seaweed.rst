@@ -2,7 +2,7 @@
 WeedFS
 ===============
 
-.. automodule:: pyseaweed.weed
+.. automodule:: pyseaweed.seaweed
     :members:
 
     .. autoclass:: WeedFS
