@@ -155,7 +155,7 @@ class SeaweedFS(object):
         url = self.get_file_url(fid)
         return self.conn.delete_data(url)
 
-    def upload_file(self, path=None, stream=None, name=None, **kwargs):
+    def upload_file(self, path=None, stream=None, name=None, additional_headers=None, **kwargs):
         """
         Uploads file to SeaweedFS
 
@@ -167,6 +167,7 @@ class SeaweedFS(object):
         :param string path:
         :param string stream:
         :param string name:
+        :param dict additional_headers:
         :rtype: string or None
 
         """
@@ -179,18 +180,19 @@ class SeaweedFS(object):
         data = json.loads(self.conn.get_data(url))
         if data.get("error") is not None:
             return None
-        post_url = "http://{url}/{fid}".format(
+        post_url = "http://{url}/{fid}{params}".format(
             url=data["publicUrl" if self.use_public_url else "url"],
             fid=data["fid"],
+            params="?" + params if params else "",
         )
 
         if path is not None:
-            filename = os.path.basename(path)
+            filename = os.path.basename(path) if name is None else name
             with open(path, "rb") as file_stream:
-                res = self.conn.post_file(post_url, filename, file_stream)
+                res = self.conn.post_file(post_url, filename, file_stream, additional_headers=additional_headers)
         # we have file like object and filename
         elif stream is not None and name is not None:
-            res = self.conn.post_file(post_url, name, stream)
+            res = self.conn.post_file(post_url, name, stream, additional_headers=additional_headers)
         else:
             raise ValueError(
                 "If `path` is None then *both* `stream` and `name` must not"
@@ -199,7 +201,8 @@ class SeaweedFS(object):
         response_data = json.loads(res)
         if "size" in response_data:
             return data.get("fid")
-        return None
+
+        raise RuntimeError("Upload failed", response_data=response_data)
 
     def vacuum(self, threshold=0.3):
         """
