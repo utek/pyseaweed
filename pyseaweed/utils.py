@@ -113,7 +113,7 @@ class Connection(object):
         """
         res = self._conn.post(
             url,
-            files={filename: file_stream},
+            files={'file': (filename, file_stream)},
             headers=self._prepare_headers(**kwargs),
         )
         if res.status_code == 200 or res.status_code == 201:
