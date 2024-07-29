@@ -155,7 +155,7 @@ class SeaweedFS(object):
         url = self.get_file_url(fid)
         return self.conn.delete_data(url)
 
-    def upload_file(self, path=None, stream=None, name=None, additional_headers=None, **kwargs):
+    def upload_file(self, path=None, stream=None, name=None, additional_headers=None, content_type=None, **kwargs):
         """
         Uploads file to SeaweedFS
 
@@ -168,6 +168,7 @@ class SeaweedFS(object):
         :param string stream:
         :param string name:
         :param dict additional_headers:
+        :param string content_type:
         :rtype: string or None
 
         """
@@ -189,10 +190,10 @@ class SeaweedFS(object):
         if path is not None:
             filename = os.path.basename(path) if name is None else name
             with open(path, "rb") as file_stream:
-                res = self.conn.post_file(post_url, filename, file_stream, additional_headers=additional_headers)
+                res = self.conn.post_file(post_url, filename, file_stream, additional_headers=additional_headers, content_type=content_type)
         # we have file like object and filename
         elif stream is not None and name is not None:
-            res = self.conn.post_file(post_url, name, stream, additional_headers=additional_headers)
+            res = self.conn.post_file(post_url, name, stream, additional_headers=additional_headers, content_type=content_type)
         else:
             raise ValueError(
                 "If `path` is None then *both* `stream` and `name` must not"
