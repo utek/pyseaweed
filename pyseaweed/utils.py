@@ -92,7 +92,7 @@ class Connection(object):
         else:
             return None
 
-    def post_file(self, url, filename, file_stream, *args, **kwargs):
+    def post_file(self, url, filename, file_stream, content_type=None, *args, **kwargs):
         """Uploads file to provided url.
 
         Returns contents as text
@@ -104,6 +104,8 @@ class Connection(object):
 
             **file_stream**: file like object to upload
 
+            **content_type**: (optional) Content type of the file
+
             .. versionadded:: 0.3.2
                 **additional_headers**: (optional) Additional headers
                 to be used with request
@@ -113,7 +115,7 @@ class Connection(object):
         """
         res = self._conn.post(
             url,
-            files={filename: file_stream},
+            files={'file': (filename, file_stream) if content_type is None else (filename, file_stream, content_type)},
             headers=self._prepare_headers(**kwargs),
         )
         if res.status_code == 200 or res.status_code == 201:
